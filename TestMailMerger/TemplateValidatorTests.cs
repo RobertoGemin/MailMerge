@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Validator;
+using Library.Validator.Methods;
 using TestMailMerger.Helper;
+using Library.Interface.Validator;
 
 namespace TestMailMerger
 {
     [TestClass]
-    public class TxtValidatorTests
+    public class TemplateValidatorTests
     {
-        public MailMerge MailMerge = new();
+        public IValidator MailMerge = new TemplateValidator();
 
 
         [TestMethod]
@@ -26,7 +29,7 @@ namespace TestMailMerger
                 // Act
                 File.WriteAllText(tempFile, TemplateCreator.CreateMessage());
 
-                var result = MailMerge.ValidateTemplateFile(tempFile);
+                var result = MailMerge.Validate(tempFile);
                 // Assert
                 Assert.IsTrue(result);
             }
@@ -51,7 +54,7 @@ namespace TestMailMerger
                 // Act
                 File.WriteAllText(tempFile, TemplateCreator.CreateInvalidMessage());
 
-                var result = MailMerge.ValidateTemplateFile(tempFile);
+                var result = MailMerge.Validate(tempFile);
                 // Assert
                 Assert.IsFalse(result);
             }

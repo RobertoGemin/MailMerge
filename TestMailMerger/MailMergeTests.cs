@@ -1,4 +1,5 @@
-﻿using Library;
+﻿using Library.Validator.Mail;
+using Library.Validator.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +24,22 @@ namespace TestMailMerger
             File.WriteAllText(xmlFile, XmlCreator.CreateValidXmlDocument());
             string randomFileNameWithoutExtension = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
             string outputDir = Path.Combine(Path.GetTempPath(), randomFileNameWithoutExtension);
-            MailMerge mailMerge = new MailMerge();
+            MailMerge mailMerge = new ();
 
             try
             {
                 // Act
-                mailMerge.MergeMail(templateFile, xmlFile, outputDir);
+                MailMergeValidator mailMergeValidator = MailMergeValidator.CreateMailMergeValidator();
+
+                if (mailMergeValidator.Validate(templateFile, xmlFile, outputDir))
+                {
+                    mailMergeValidator.Process();
+                }
 
 
                 XDocument xDocument = mailMerge.LoadXDocument(xmlFile);
                 IEnumerable<XElement> orderNodes = mailMerge.GetOrderNodes(xDocument);
-                IEnumerable<string> orderIds = orderNodes
+                IEnumerable<string?> orderIds = orderNodes
                     .Select(o => (string)o.Attribute("id"));
 
                 foreach (var id in orderIds)
@@ -55,9 +61,10 @@ namespace TestMailMerger
                 // Clean up
                 File.Delete(templateFile);
                 File.Delete(xmlFile);
-                Directory.GetFiles(outputDir)
-                    .ToList()
-                    .ForEach(File.Delete);
+                foreach (var file in Directory.EnumerateFiles(outputDir))
+                {
+                    File.Delete(file);
+                }
                 Directory.Delete(outputDir);
             }
         }
@@ -71,7 +78,7 @@ namespace TestMailMerger
             File.WriteAllText(xmlFile, XmlCreator.CreateValidXmlTwoElements());
             string randomFileNameWithoutExtension = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
             string outputDir = Path.Combine(Path.GetTempPath(), randomFileNameWithoutExtension);
-            MailMerge mailMerge = new MailMerge();
+            MailMerge mailMerge = new();
 
             try
             {
@@ -81,7 +88,7 @@ namespace TestMailMerger
 
                 XDocument xDocument = mailMerge.LoadXDocument(xmlFile);
                 IEnumerable<XElement> orderNodes = mailMerge.GetOrderNodes(xDocument);
-                IEnumerable<string> orderIds = orderNodes
+                IEnumerable<string?> orderIds = orderNodes
                     .Select(o => (string)o.Attribute("id"));
 
                 foreach (var id in orderIds)

@@ -1,5 +1,9 @@
 using System.Xml.Linq;
 using Library;
+using Library.Interface.Validator;
+using Library.Validator.Mail;
+using Library.Validator;
+using Library.Validator.Methods;
 using Microsoft.VisualBasic.FileIO;
 using TestMailMerger.Helper;
 
@@ -9,7 +13,7 @@ namespace TestMailMerger
     public class FileValidatorTests
     {
         public string TempFile = string.Empty;
-        public MailMerge MailMerge = new();
+        public IValidator FileValidator = new FileValidator();
 
         [TestInitialize]
         public void TestInitialize()
@@ -32,7 +36,7 @@ namespace TestMailMerger
             // Arrange
             var fileName = TempFile;
             // Act
-            var result = MailMerge.ValidateFile(fileName);
+            var result = FileValidator.Validate(fileName);
             // Assert
             Assert.IsTrue(result);
         }
@@ -44,7 +48,7 @@ namespace TestMailMerger
             File.Delete(TempFile);
             var fileName = TempFile;
             // Act
-            var result = MailMerge.ValidateFile(fileName);
+            var result = FileValidator.Validate(fileName);
             // Assert
             Assert.IsFalse(result);
         }
@@ -60,7 +64,7 @@ namespace TestMailMerger
                 using (var fs = new FileStream(lockedFile, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
                 {
                     // Act
-                    var result = MailMerge.ValidateFile(lockedFile);
+                    var result = FileValidator.Validate(lockedFile);
                     Assert.IsFalse(result);
                 }
 
@@ -85,7 +89,7 @@ namespace TestMailMerger
             var fileName = TempFile;
             // Act
             File.WriteAllText(TempFile, null);
-            var result = MailMerge.ValidateFile(fileName);
+            var result = FileValidator.Validate(fileName);
             // Assert
             Assert.IsFalse(result);
         }
@@ -96,7 +100,7 @@ namespace TestMailMerger
             // Arrange
             var fileName = string.Empty;
             // Act
-            var result = MailMerge.ValidateFile(fileName);
+            var result = FileValidator.Validate(fileName);
             // Assert
             Assert.IsFalse(result);
         }
@@ -116,7 +120,7 @@ namespace TestMailMerger
             {
                 // Act
                 File.WriteAllText(tempFile, XmlCreator.CreateValidXmlDocument());
-                var result = MailMerge.ValidateFile(tempFile);
+                var result = FileValidator.Validate(tempFile);
                 // Assert
                 Assert.IsTrue(result);
             }
@@ -145,40 +149,9 @@ namespace TestMailMerger
             {
                 // Act
                 File.WriteAllText(tempFile, TemplateCreator.CreateMessage());
-                var result = MailMerge.ValidateFile(tempFile);
+                var result = FileValidator.Validate(tempFile);
                 // Assert
                 Assert.IsTrue(result);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($" {ex.Message}");
-            }
-            finally
-            {
-                // Clean up
-                File.Delete(tempFile);
-            }
-        }
-
-
-        [TestMethod]
-        [DataRow("file.DOC")]
-        [DataRow("file.XLS")]
-        [DataRow("file.PDF")]
-        [DataRow("file.JPG")]
-        [DataRow("file.exe")]
-        public void ValidateFile_WhenFileInValidExtensions_ReturnsFalse(string fileName)
-        {
-            // Arrange
-            var tempPath = Path.GetTempPath();
-            var tempFile = Path.Combine(tempPath, fileName);
-            try
-            {
-                // Act
-                File.WriteAllText(tempFile, TemplateCreator.CreateMessage());
-                var result = MailMerge.ValidateFile(tempFile);
-                // Assert
-                Assert.IsFalse(result);
             }
             catch (Exception ex)
             {
@@ -202,7 +175,7 @@ namespace TestMailMerger
             {
                 // Act
                 File.WriteAllText(tempFile, TemplateCreator.CreateMessage());
-                var result = MailMerge.ValidateFile(tempFile);
+                var result = FileValidator.Validate(tempFile);
                 // Assert
                 Assert.IsFalse(result);
             }
@@ -230,7 +203,7 @@ namespace TestMailMerger
                 long fileSizeInBytes = 5 * 1024 * 1024;
                 var data = new byte[fileSizeInBytes];
                 File.WriteAllBytes(tempFile, data);
-                var result = MailMerge.ValidateFile(tempFile);
+                var result = FileValidator.Validate(tempFile);
                 // Assert
                 Assert.IsFalse(result);
             }

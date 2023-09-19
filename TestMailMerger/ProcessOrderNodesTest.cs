@@ -1,4 +1,5 @@
 ﻿using Library;
+using Library.Validator.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace TestMailMerger
         public void ValidateProcessOrderNodes_WhenSuccessful_ReturnsTrue()
         {
             // Arrange
-            var mailMerge = new MailMerge();
+            MailMerge mailMerge = new();
             var orderNodes = new List<XElement>
             {
                 new XElement("Order", new XAttribute("id", "1")),
@@ -52,11 +53,12 @@ namespace TestMailMerger
             finally
             {
                 // Clean up
-                File.Delete(templateFile);
-                Directory.GetFiles(outputDir)
-                    .ToList()
-                    .ForEach(File.Delete);
-                Directory.Delete(outputDir);
+            File.Delete(templateFile);
+            foreach (var file in Directory.EnumerateFiles(outputDir))
+            {
+                File.Delete(file);
+            }
+            Directory.Delete(outputDir);
             }
         }
 

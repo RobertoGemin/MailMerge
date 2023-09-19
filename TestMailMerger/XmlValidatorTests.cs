@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Validator;
+using Library.Validator.Methods;
 using TestMailMerger.Helper;
+using Library.Interface.Validator;
 
 namespace TestMailMerger
 {
     [TestClass]
     public class XmlValidatorTests
     {
-        public MailMerge MailMerge = new();
+        public IValidator MailMerge = new XmlValidator();
 
         [TestInitialize]
         public void TestInitialize()
@@ -28,7 +31,7 @@ namespace TestMailMerger
 
 
             // Act
-            var result = MailMerge.ValidateXml(validXmlFile);
+            var result = MailMerge.Validate(validXmlFile);
             // Assert
 
             Assert.IsTrue(result);
@@ -45,7 +48,7 @@ namespace TestMailMerger
 
 
             // Act
-            var result = MailMerge.ValidateXml(validXmlFile);
+            var result = MailMerge.Validate(validXmlFile);
             // Assert
 
             Assert.IsTrue(result);
@@ -63,7 +66,7 @@ namespace TestMailMerger
 
 
             // Act
-            var result = MailMerge.ValidateXml(validXmlFile);
+            var result = MailMerge.Validate(validXmlFile);
             // Assert
 
             Assert.IsTrue(result);
@@ -81,7 +84,7 @@ namespace TestMailMerger
 
 
             // Act
-            var result = MailMerge.ValidateXml(validXmlFile);
+            var result = MailMerge.Validate(validXmlFile);
             // Assert
 
             Assert.IsFalse(result);
@@ -99,7 +102,7 @@ namespace TestMailMerger
             File.WriteAllText(validXmlFile, XmlCreator.CreateInValidXmlDocument());
 
             // Act
-            var result = MailMerge.ValidateXml(validXmlFile);
+            var result = MailMerge.Validate(validXmlFile);
             // Assert
 
             Assert.IsFalse(result);
@@ -116,7 +119,7 @@ namespace TestMailMerger
             File.WriteAllText(validXmlFile, XmlCreator.CreateInValidXmlDocumentEmptyValueInElement());
 
             // Act
-            var result = MailMerge.ValidateXml(validXmlFile);
+            var result = MailMerge.Validate(validXmlFile);
             // Assert
 
             Assert.IsFalse(result);
@@ -132,7 +135,7 @@ namespace TestMailMerger
             File.WriteAllText(validXmlFile, XmlCreator.CreateInValidXmlInjection());
 
             // Act
-            var result = MailMerge.ValidateXml(validXmlFile);
+            var result = MailMerge.Validate(validXmlFile);
             // Assert
 
             Assert.IsFalse(result);
