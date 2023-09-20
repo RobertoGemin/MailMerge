@@ -1,6 +1,5 @@
-﻿using Library.Interface;
-using System.Xml.Linq;
-using Library.Validator.Class;
+﻿using System.Xml.Linq;
+using Library.Validator.Mail;
 
 var templateFile = TemplateFile(out var xmlFile, out var XmlCreator);
 File.WriteAllText(xmlFile, XmlCreator);

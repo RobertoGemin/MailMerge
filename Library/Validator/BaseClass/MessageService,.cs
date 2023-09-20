@@ -11,9 +11,9 @@ using Library.Validator.Mail;
 using Library.Validator;
 using Library.Interface.Service;
 
-namespace Library.Validator.Service
+namespace Library.Validator.BaseClass
 {
-    public abstract class BaseMessage : IMessageService, INotifyPropertyChanged
+    public abstract class Message : IMessageService, INotifyPropertyChanged
     {
 
         private string _messages = string.Empty;
@@ -36,6 +36,8 @@ namespace Library.Validator.Service
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public abstract void Process();
 
     }
 }

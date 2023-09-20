@@ -1,10 +1,6 @@
-using System.Xml.Linq;
-using Library;
+
 using Library.Interface.Validator;
-using Library.Validator.Mail;
-using Library.Validator;
-using Library.Validator.Methods;
-using Microsoft.VisualBasic.FileIO;
+using Library.Validator.Processing;
 using TestMailMerger.Helper;
 
 namespace TestMailMerger

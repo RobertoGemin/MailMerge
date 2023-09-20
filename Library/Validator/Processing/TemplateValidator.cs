@@ -1,13 +1,8 @@
 ﻿using Library.Interface.Validator;
 using Library.Validator.Generator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Library.Validator.Methods
+namespace Library.Validator.Processing
 {
     public class TemplateValidator : IValidator
     {

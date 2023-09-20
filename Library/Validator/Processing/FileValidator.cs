@@ -1,11 +1,6 @@
 ﻿using Library.Interface.Validator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Library.Validator.Methods
+namespace Library.Validator.Processing
 {
     public class FileValidator : IValidator
     {

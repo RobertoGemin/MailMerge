@@ -1,13 +1,7 @@
-﻿using Library;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Library.Validator;
-using Library.Validator.Methods;
+﻿
 using TestMailMerger.Helper;
 using Library.Interface.Validator;
+using Library.Validator.Processing;
 
 namespace TestMailMerger
 {

@@ -51,6 +51,7 @@ namespace Library.Validator.Mail
                 if (!Directory.Exists(outputDir))
                 {
                     Directory.CreateDirectory(outputDir);
+                    Messages = "An directory creating.";
 
                 }
 
@@ -58,7 +59,7 @@ namespace Library.Validator.Mail
             }
             catch
             {
-                Messages = "An error occurred while validating the output directory.";
+                Messages = "An error occurred creating the output directory.";
             }
 
 

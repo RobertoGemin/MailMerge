@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Library.Interface.Mail;
-using Library.Validator.Methods;
+﻿using Library.Interface.Mail;
 using Library.Interface.Validator;
-using Library.Validator.Service;
-using Library.Validator.Mail;
+using Library.Validator.BaseClass;
+ using Library.Validator.Processing;
 
-namespace Library.Validator.Class
+namespace Library.Validator.Mail
 {
-    public class MailMergeValidator : BaseMessage
+    public class MailMergeValidator : Message
     {
         private readonly IMailMerge _mailMerge;
         private readonly IValidator _directoryCreationValidator;
@@ -80,7 +74,7 @@ namespace Library.Validator.Class
         }
 
 
-        public void Process()
+        public override void Process()
         {
             _mailMerge.MergeMail(_templateFile, _xmlFile, _outputDir);
         }

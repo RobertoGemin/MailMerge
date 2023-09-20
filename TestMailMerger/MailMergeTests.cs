@@ -1,12 +1,6 @@
 ﻿using Library.Validator.Mail;
-using Library.Validator.Class;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
+using Library.Interface.Mail;
 using TestMailMerger.Helper;
 
 namespace TestMailMerger
@@ -24,7 +18,7 @@ namespace TestMailMerger
             File.WriteAllText(xmlFile, XmlCreator.CreateValidXmlDocument());
             string randomFileNameWithoutExtension = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
             string outputDir = Path.Combine(Path.GetTempPath(), randomFileNameWithoutExtension);
-            MailMerge mailMerge = new ();
+            IMailMerge mailMerge = new MailMerge();
 
             try
             {

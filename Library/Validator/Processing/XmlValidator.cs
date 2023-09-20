@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Xml.Linq;
 using System.Xml;
 using Library.Validator.Generator;
 using Library.Interface.Validator;
 
-namespace Library.Validator.Methods
+namespace Library.Validator.Processing
 {
     public class XmlValidator : IValidator
     {
